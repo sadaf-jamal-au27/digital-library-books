@@ -8,11 +8,6 @@ on:
       - master
     tags:
       - 'v*'
-    paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - 'LICENSE'
-      - 'docs/**'
 
 env:
   BACKEND_IMAGE: sadafjamal3/digital-library-backend
