@@ -10,6 +10,6 @@ patchesStrategicMerge:
 
 images:
   - name: sadafjamal3/digital-library-backend
-    newTag: latest
+    newTag: d1f3e8813b274ce6d4d7261caeeeeb1d4d62c3d9
   - name: sadafjamal3/digital-library-frontend
-    newTag: latest
+    newTag: d1f3e8813b274ce6d4d7261caeeeeb1d4d62c3d9
