@@ -24,11 +24,13 @@ router.get('/', async (req, res) => {
   const { sortKey, order } = parseSort(req.query);
 
   const query = { ...filter };
-  let sort = { [sortKey]: order };
+  const orderNum = order === 'asc' ? 1 : -1;
+  let sort = { [sortKey]: orderNum };
 
   if (useTextSearch && searchTerm) {
     query.$text = { $search: searchTerm };
-    sort = [{ score: { $meta: 'textScore' } }, { [sortKey]: order }];
+    // Mongoose sort with $meta requires array of [key, value] pairs
+    sort = [['score', { $meta: 'textScore' }], [sortKey, orderNum]];
   }
 
   let books;
@@ -51,7 +53,7 @@ router.get('/', async (req, res) => {
         ];
       }
       [books, total] = await Promise.all([
-        Book.find(fallbackQuery).sort({ [sortKey]: order }).skip(skip).limit(limit).lean(),
+        Book.find(fallbackQuery).sort({ [sortKey]: orderNum }).skip(skip).limit(limit).lean(),
         Book.countDocuments(fallbackQuery),
       ]);
     } else {
