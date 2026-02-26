@@ -1,0 +1,17 @@
+node_modules/
+server/uploads/
+*.log
+.env
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.tfvars.json
+crash.*.log
+
+# Local-only (not pushed to GitHub)
+docs/
+scripts/

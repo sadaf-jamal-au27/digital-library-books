@@ -1,0 +1,74 @@
+================================================================================
+SHARING REAL DATA (200 users, 100 books) WITH ANOTHER ENGINEER
+================================================================================
+Docker images do NOT contain MongoDB data. Data lives in volumes. To give
+another engineer your actual DB + uploads, you export once and they import once.
+
+--------------------------------------------------------------------------------
+A) YOU (data owner): Export DB + uploads
+--------------------------------------------------------------------------------
+1. From the project root (where docker-compose.yml is), run:
+
+   chmod +x scripts/export-data.sh
+   ./scripts/export-data.sh
+
+   This creates:
+     ./export/digital-library-dump.archive   (MongoDB dump)
+     ./export/uploads.tar                    (books PDFs, covers, avatars)
+
+2. Share the two files (e.g. USB, shared drive, S3, link):
+   - digital-library-dump.archive
+   - uploads.tar
+
+--------------------------------------------------------------------------------
+B) OTHER ENGINEER: Use images and load your data
+--------------------------------------------------------------------------------
+1. Start the stack (empty DB + auto-seed will run, or skip if they have a way):
+
+   docker compose up -d
+
+   (If they want to skip auto-seed and only use your data, they can remove
+    the .seeded file from the volume or use a fresh volume.)
+
+2. Stop the backend so we can restore without conflicts:
+
+   docker compose stop backend
+
+3. Restore your MongoDB dump (replaces the DB with your 200 users, 100 books):
+
+   docker compose exec -T db mongorestore --db digital-library --drop --archive < /path/to/digital-library-dump.archive
+
+   (Use the path where they saved the file you sent.)
+
+4. Restore uploads (PDFs, covers, avatars) into the backend volume:
+
+   docker compose run --rm -v /path/to/uploads.tar:/uploads.tar --entrypoint sh backend -c "cd /app/uploads && tar xf /uploads.tar"
+
+   (Replace /path/to/uploads.tar with the actual path.)
+
+5. Start the backend again:
+
+   docker compose start backend
+
+6. Open http://localhost:8080 — they now have your 200 users and 100 books.
+   They can log in with any of the user accounts from your DB.
+
+--------------------------------------------------------------------------------
+Using the import script (engineer)
+--------------------------------------------------------------------------------
+If you gave them the repo or the scripts folder, they can do:
+
+   chmod +x scripts/import-data.sh
+   ./scripts/import-data.sh /path/to/digital-library-dump.archive /path/to/uploads.tar
+
+   (Run from project root, after "docker compose up -d".)
+   If they use docker-compose.hub.yml, first edit the script and add
+   "-f docker-compose.hub.yml" after "docker compose" in each command.
+
+--------------------------------------------------------------------------------
+Summary
+--------------------------------------------------------------------------------
+  You export once  ->  Share 2 files  ->  Engineer runs compose + import once
+  Images stay the same; only the data (dump + uploads) is shared.
+
+================================================================================

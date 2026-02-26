@@ -1,0 +1,49 @@
+services:
+  db:
+    image: mongo:7
+    container_name: digital-library-db
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: digital-library
+
+  backend:
+    image: digital-library-backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: digital-library-backend
+    restart: unless-stopped
+    ports:
+      - "3002:3001"   # host 3002 to avoid conflict with dev server on 3001
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      MONGODB_URI: mongodb://db:27017/digital-library
+      CORS_ORIGIN: http://localhost:8080
+      # Set SKIP_SEED=true to use real data only (no seed). Use with MONGODB_URI to your real DB (e.g. Atlas).
+      # SKIP_SEED: "true"
+      # Add JWT_SECRET, SMTP_* etc. here or via server/.env (create from .env.example)
+    depends_on:
+      - db
+    volumes:
+      - backend_uploads:/app/uploads
+
+  frontend:
+    image: digital-library-frontend
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: digital-library-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"   # host 8080 (port 80 often in use)
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+  backend_uploads:

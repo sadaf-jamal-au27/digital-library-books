@@ -1,0 +1,21 @@
+# Apply this in the argocd namespace (where Argo CD is installed).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: digital-library
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sadaf-jamal-au27/digital-library-books.git
+    targetRevision: master
+    path: k8s/overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: digital-library
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

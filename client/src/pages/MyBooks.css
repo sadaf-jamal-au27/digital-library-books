@@ -1,0 +1,49 @@
+.mybooks {
+  padding-bottom: 2rem;
+}
+
+.mybooks-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem 0;
+}
+
+.mybooks-subtitle {
+  color: var(--text-muted);
+  margin: 0 0 1.5rem 0;
+}
+
+.mybooks-loading {
+  color: var(--text-muted);
+  padding: 2rem;
+}
+
+.mybooks-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.mybooks-empty p {
+  color: var(--text-muted);
+  margin: 0 0 1rem 0;
+}
+
+.btn-remove {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.btn-remove:hover {
+  background: rgba(196, 92, 92, 0.15);
+  color: var(--error);
+}

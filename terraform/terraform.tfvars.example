@@ -1,0 +1,11 @@
+# Copy to terraform.tfvars and set your values (terraform.tfvars is gitignored)
+
+project_id  = "host-project-486317"
+region      = "asia-south1"
+cluster_name = "digital-library-gke"
+
+# Optional overrides (cheaper defaults: e2-small, 20 GB pd-ssd)
+# name_prefix         = "digital-library"
+# node_machine_type   = "e2-small"   # or e2-medium for more headroom
+# node_disk_size_gb   = 20
+# use_spot_nodes      = false        # true = spot VMs, cheaper but can be evicted

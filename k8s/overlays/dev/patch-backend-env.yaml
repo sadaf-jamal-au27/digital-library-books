@@ -1,0 +1,13 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: digital-library
+spec:
+  template:
+    spec:
+      containers:
+        - name: backend
+          env:
+            - name: CORS_ORIGIN
+              value: "http://digital-library.local"
