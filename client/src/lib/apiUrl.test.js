@@ -13,6 +13,10 @@ describe('apiAssetUrl', () => {
   });
 
   it('returns path when API_BASE is empty (dev)', () => {
-    expect(apiAssetUrl('/api/covers/x.png')).toBe('/api/covers/x.png');
+    const base = import.meta.env.VITE_API_URL || '';
+    const expected = base
+      ? `${base.replace(/\/$/, '')}/api/covers/x.png`
+      : '/api/covers/x.png';
+    expect(apiAssetUrl('/api/covers/x.png')).toBe(expected);
   });
 });

@@ -4,13 +4,16 @@ import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 function renderApp(route = '/') {
   return render(
     <MemoryRouter initialEntries={[route]}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </ThemeProvider>
     </MemoryRouter>
   );
 }

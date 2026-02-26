@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
 import Layout from './Layout';
 import { useAuth } from '../context/AuthContext';
+import { renderWithProviders } from '../test/renderWithProviders.jsx';
 
 vi.mock('../context/AuthContext', () => ({
   useAuth: vi.fn(() => ({ user: null, logout: vi.fn() })),
@@ -10,21 +10,13 @@ vi.mock('../context/AuthContext', () => ({
 
 describe('Layout', () => {
   it('shows logo and Browse link', () => {
-    render(
-      <MemoryRouter>
-        <Layout />
-      </MemoryRouter>
-    );
+    renderWithProviders(<Layout />, { withAuthProvider: false, withOutletRoute: true });
     expect(screen.getByRole('link', { name: /digital library/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /browse/i })).toBeInTheDocument();
   });
 
   it('shows Log in and Sign up when user is null', () => {
-    render(
-      <MemoryRouter>
-        <Layout />
-      </MemoryRouter>
-    );
+    renderWithProviders(<Layout />, { withAuthProvider: false, withOutletRoute: true });
     expect(screen.getByRole('link', { name: /log in/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /sign up/i })).toBeInTheDocument();
   });
@@ -34,11 +26,7 @@ describe('Layout', () => {
       user: { name: 'Jane', email: 'j@b.com', role: 'user' },
       logout: vi.fn(),
     });
-    render(
-      <MemoryRouter>
-        <Layout />
-      </MemoryRouter>
-    );
+    renderWithProviders(<Layout />, { withAuthProvider: false, withOutletRoute: true });
     expect(screen.getByRole('link', { name: /my books/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /profile/i })).toBeInTheDocument();
   });

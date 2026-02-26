@@ -12,6 +12,7 @@ const mockFetch = vi.fn();
 describe('Library', () => {
   beforeEach(() => {
     vi.stubGlobal('fetch', mockFetch);
+    mockFetch.mockReset();
   });
 
   it('renders hero and discover title', async () => {
@@ -28,7 +29,18 @@ describe('Library', () => {
     mockFetch
       .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve([]) })
       .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve([]) })
-      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve([{ id: '1', title: 'Book One', author: 'Author', category: 'Fiction', book_type: 'eBook' }]) });
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            books: [
+              { id: '1', title: 'Book One', author: 'Author', category: 'Fiction', book_type: 'eBook' },
+            ],
+            total: 1,
+            page: 1,
+            totalPages: 1,
+          }),
+      });
     render(
       <MemoryRouter>
         <Library />
