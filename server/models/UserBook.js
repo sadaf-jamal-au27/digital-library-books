@@ -10,4 +10,4 @@ const userBookSchema = new mongoose.Schema(
 
 userBookSchema.index({ user: 1, book: 1 }, { unique: true });
 
-export default mongoose.model('UserBook', userBookSchema);
+export default mongoose.models.UserBook || mongoose.model('UserBook', userBookSchema);
