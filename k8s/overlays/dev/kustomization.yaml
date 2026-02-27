@@ -10,6 +10,6 @@ patches:
 
 images:
   - name: sadafjamal3/digital-library-backend
-    newTag: d1f3e8813b274ce6d4d7261caeeeeb1d4d62c3d9
+    newTag: 8bb3efd7daae0490c97f94d1b3b2d96358e069ca
   - name: sadafjamal3/digital-library-frontend
-    newTag: d1f3e8813b274ce6d4d7261caeeeeb1d4d62c3d9
+    newTag: 8bb3efd7daae0490c97f94d1b3b2d96358e069ca
