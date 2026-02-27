@@ -17,11 +17,17 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (isProduction) {
+  // Behind Ingress/Nginx in production; trust proxy so rate-limit & IPs work correctly.
+  app.set('trust proxy', 1);
   app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
   app.use(rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 200,
     message: { error: 'Too many requests, please try again later.' },
+    // Allow X-Forwarded-For from ingress/front proxies without throwing validation errors.
+    validate: {
+      xForwardedForHeader: false,
+    },
   }));
 }
 

@@ -5,6 +5,7 @@
     "dev": "node --watch index.js",
     "start": "node index.js",
     "seed": "node seed.js",
+    "create-admin": "node scripts/create-admin.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },

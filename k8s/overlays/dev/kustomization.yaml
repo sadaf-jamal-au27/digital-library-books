@@ -5,8 +5,8 @@ resources:
   - ../../base
   - ingress.yaml
 
-patchesStrategicMerge:
-  - patch-backend-env.yaml
+patches:
+  - path: patch-backend-env.yaml
 
 images:
   - name: sadafjamal3/digital-library-backend

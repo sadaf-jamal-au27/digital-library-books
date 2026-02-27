@@ -97,5 +97,3 @@ Optional:
 - `PORT` – server port (default 3001)
 - `MONGODB_URI` – MongoDB connection string (default `mongodb://127.0.0.1:27017/digital-library`)
 - `JWT_SECRET` – secret for JWT (set in production)
-# digital-library-books
-# add-push
